@@ -43,7 +43,7 @@ const App = () => {
       <button onClick={() => getRandomNum(anecdotes.length)}>Random Quote</button>
       <p>has {votes[selected]} votes</p>
       <button onClick={() => addVote(selected)}>Vote</button>
-      
+
       <h2>Anecdote with highest votes</h2>
       <p>{anecdotes[getMax(votes)]}</p>
       <p>has {votes[getMax(votes)]} votes</p>
