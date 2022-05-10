@@ -17,6 +17,7 @@ const App = () => {
         setPersons(initialPersons)})
   }, [])
 
+
   const addPhone = (e) => {
     e.preventDefault()
     if(persons.some(person => person.name === newName)){
@@ -37,15 +38,18 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-
           setError(`${newPhone.name} was added to the phonebook`)
           setTimeout(() => {setError(null)}, 5000)
-
-        }).catch((err) => setError(err))
+        })
+        .catch((err) => {
+          console.log(err.response.data.error)
+          setError(err.response.data.error)
+          setInterval(() => {setError(null)}, 5000)
+        })
   }
 
   const deletePhone = id => {
-    if(window.confirm(`Confirm Delete ${persons.filter(person => person.id == id)[0].name}?`)){
+    if(window.confirm(`Confirm Delete ${persons.filter(person => person.id === id)[0].name}?`)){
       personsService.remove(id)
         .then(() => setPersons(persons.filter(person  => person.id !== id)))
 
@@ -131,7 +135,7 @@ const PersonsForm = ({onSubmit, inputs, submitText}) => {
 }
 
 const Notification = ({ message }) => {
-  if (message === null) {
+  if (message == null) {
     return null
   }
 
